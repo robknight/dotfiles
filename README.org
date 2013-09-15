@@ -1,0 +1,15 @@
+* Dotfiles
+** What's this?
+This is a copy of my dotfiles (configuration files).
+** Should I use this?
+If you're not me then probably not, no.  The configurations here are fairly personal and are unlikely to be useful to anyone else but the author.
+** But if I did want to use them, how should I?
+These files are designed to be 'deployed' using [[https://www.gnu.org/software/stow/][GNU Stow]].
+
+Assuming that you have cloned the repo to the 'dotfiles' directory, the following commands will deploy the config files:
+#+begin_example
+$ cd dotfiles
+$ stow emacs
+#+end_example
+
+This takes the contents of the 'emacs' directory and symlinks it to your home directory.  Since 'emacs' contains the '.emacs.d' directory, your home directory will now contain a symlink to .emacs.d.
