@@ -1,0 +1,136 @@
+#+STARTUP: indent
+* Basic UI tweaks
+#+begin_src emacs-lisp
+(setq inhibit-startup-screen t)
+(menu-bar-mode 0)
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -2))
+(blink-cursor-mode 0)
+(column-number-mode t)
+#+end_src
+* File editing settings
+#+begin_src emacs-lisp
+(setq-default indent-tabs-mode nil)
+(setq require-final-newline t)
+(fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+* Searching
+#+begin_src
+(setq search-highlight t)
+(setq query-replace-highlight t)
+(setq case-fold-search t)
+#+end_src
+* Set up package repositories
+#+begin_src emacs-lisp
+(require 'package)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+end_src
+
+* Custom font faces
+#+begin_src emacs-lisp
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#151515" :foreground "#dcdccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "PragmataPro"))))
+ '(mode-line ((t (:box nil :height 110))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil :height 110))))
+ '(org-column ((t (:background "#2d2d2d"))))
+ '(powerline-active1 ((t (:foreground "#f9f9f9" :background "#666666")))))
+#+end_src
+
+* Set up Org Mode
+#+begin_src emacs-lisp
+(global-set-key "\C-ca" 'org-agenda)
+
+(add-hook 'org-mode-hook (lambda () (auto-complete-mode -1)))
+
+
+(defun org-export-latex-no-toc (depth)
+    (when depth
+      (format "%% Org-mode is exporting headings to %s levels.\n"
+              depth)))
+
+(setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
+
+
+(setq org-agenda-custom-commands
+      '(("D" "Daily Agenda"
+         ((agenda "" ((org-agenda-span 3)
+                      (org-agenda-start-day "-1d")
+                      (org-agenda-scheduled-leaders '("" ""))
+                      (org-agenda-show-log t)
+                      (org-agenda-tags-column -80)
+                      (org-agenda-show-inherited-tags nil)
+                      (org-agenda-add-entry-text-maxlines 0)
+                      (org-agenda-sorting-strategy '(priority-down))
+                      ))
+          (tags-todo "release"
+                     ((org-agenda-overriding-header "Upcoming releases")
+                      (org-agenda-show-inherited-tags nil))
+                     ) ;; include upcoming releases
+          ;; (tags "meeting"
+          ;;            ((org-agenda-overriding-header "Meetings")
+          ;;             (org-agenda-show-inherited-tags nil))
+          ;;             )
+          )
+         nil
+         ("/home/rknight/agenda.pdf")
+
+         ;; ...other commands here
+         )
+      ("W" "Last Week"
+       ((agenda "" ((org-agenda-span 5)
+                    (org-agenda-start-day "-1w")
+                    (org-agenda-scheduled-leaders '("" ""))
+                    (org-agenda-show-log t)
+                    (org-agenda-tags-column -80)
+                    (org-agenda-show-inherited-tags nil)
+                    (org-agenda-add-entry-text-maxlines 0)
+                    (org-agenda-sorting-strategy '(priority-down))
+                    ))
+        ))
+      ))
+
+(setq org-agenda-exporter-settings
+      '((ps-print-color-p nil)
+        (ps-font-size 16)
+        (ps-top-margin 10)
+        ;; adjust this and font size if enabling line numbers
+        (ps-left-margin 10)
+        (ps-right-margin 10)
+        (ps-font-family 'Helvetica-Narrow)
+        (ps-landscape-mode nil)
+        (ps-number-of-columns 1)
+        (org-agenda-add-entry-text-maxlines 0)
+        (htmlize-output-type 'css)))
+#+end_src
+
+* Load packages
+#+begin_src emacs-lisp
+(package-initialize)
+#+end_src
+* Load theme
+#+begin_src emacs-lisp
+(load-theme 'twilight-anti-bright)
+#+end_src
+
+* Set up custom settings file
+#+begin_src emacs-lisp
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
+#+end_src
+* Set up web mode
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+#+end_src
