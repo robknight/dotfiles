@@ -4,3 +4,7 @@
 emacs/.emacs.d/emacs-config.el
 emacs/.emacs.d/url/cookies
 emacs/.emacs.d/elpa/archives
+xmonad/.xmonad/*.o
+xmonad/.xmonad/*.hi
+xmonad/.xmonad/*.errors
+xmonad/.xmonad/xmonad-x86_64-linux
