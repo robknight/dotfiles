@@ -2,7 +2,6 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 import XMonad.Layout.Tabbed
@@ -16,9 +15,7 @@ myManagementHooks = [
 
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/rknight/.xmobarrc"
-
-    xmonad =<< xmobar myConfig
+     xmonad =<< xmobar myConfig
 
 myConfig = defaultConfig
         { manageHook = manageDocks <+> manageHook defaultConfig <+> composeAll myManagementHooks
