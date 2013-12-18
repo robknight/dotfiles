@@ -1,4 +1,8 @@
 #+STARTUP: indent
+* Load packages
+#+begin_src emacs-lisp
+(package-initialize)
+#+end_src
 * Basic UI tweaks
 #+begin_src emacs-lisp
 (setq inhibit-startup-screen t)
@@ -7,6 +11,8 @@
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -2))
 (blink-cursor-mode 0)
 (column-number-mode t)
+(setq focus-follows-mouse t)
+(setq mouse-autoselect-window t)
 #+end_src
 * File editing settings
 #+begin_src emacs-lisp
@@ -47,7 +53,7 @@
 (global-set-key "\C-ca" 'org-agenda)
 
 (add-hook 'org-mode-hook (lambda () (auto-complete-mode -1)))
-
+(setq org-agenda-files '("~/SparkleShare/org"))
 
 (defun org-export-latex-no-toc (depth)
     (when depth
@@ -55,7 +61,6 @@
               depth)))
 
 (setq org-export-latex-format-toc-function 'org-export-latex-no-toc)
-
 
 (setq org-agenda-custom-commands
       '(("D" "Daily Agenda"
@@ -68,17 +73,13 @@
                       (org-agenda-add-entry-text-maxlines 0)
                       (org-agenda-sorting-strategy '(priority-down))
                       ))
-          (tags-todo "release"
-                     ((org-agenda-overriding-header "Upcoming releases")
-                      (org-agenda-show-inherited-tags nil))
-                     ) ;; include upcoming releases
           ;; (tags "meeting"
           ;;            ((org-agenda-overriding-header "Meetings")
           ;;             (org-agenda-show-inherited-tags nil))
           ;;             )
           )
          nil
-         ("/home/rknight/agenda.pdf")
+         ("~/agenda.pdf")
 
          ;; ...other commands here
          )
@@ -108,11 +109,6 @@
         (org-agenda-add-entry-text-maxlines 0)
         (htmlize-output-type 'css)))
 #+end_src
-
-* Load packages
-#+begin_src emacs-lisp
-(package-initialize)
-#+end_src
 * Load theme
 #+begin_src emacs-lisp
 (load-theme 'twilight-anti-bright)
@@ -133,4 +129,11 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+#+end_src
+* Set up flymake for Drupal
+#+begin_src
+(add-to-list 'flymake-allowed-file-name-masks '("\\.module$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.install$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.inc$" flymake-php-init))
+(add-to-list 'flymake-allowed-file-name-masks '("\\.engine$" flymake-php-init))
 #+end_src

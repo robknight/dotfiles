@@ -1,7 +1,8 @@
 ;; add the locations of emacs-org/ other extenstions
 (add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/.emacs.d/org-8.1.1")
-
+(package-initialize)
+(when (not (require 'org nil t))
+  (package-install 'org))
 ;; set-up org babel
 (setq org-babel-load-languages '((emacs-lisp . t)))
 (setq org-confirm-babel-evaluate nil)

@@ -4,6 +4,7 @@
 emacs/.emacs.d/emacs-config.el
 emacs/.emacs.d/url/cookies
 emacs/.emacs.d/elpa/archives
+emacs/.emacs.d/elpa
 xmonad/.xmonad/*.o
 xmonad/.xmonad/*.hi
 xmonad/.xmonad/*.errors
